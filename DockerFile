@@ -1,0 +1,32 @@
+# lightweight Python
+FROM python:3.7-slim
+
+RUN apt-get update
+
+# Copy local code to container image
+
+# slash over the app directory. Means and we are copying everything in the app directory.
+ENV APP_HOME  /app
+WORKDIR %APP_HOME
+COPY . . /
+
+RUN ls -la $APP_HOME/
+
+# Install dependancies
+pip install -r requirements.txt
+
+# Run the streamlit on container startup
+CMD ["streamlit", "run", "--server.enableCORS", "false", "imgwebapp.py"]
+
+
+# enableCORS - Enabling Cross-Origin Requests, set it to false. 
+# Because sometimes for images some sites blocks them. 
+# But if we are running on a trusted environment then we can remove it.
+
+# imgwebapp.py is the streamlit application.
+# When the container starts it is going to get the python 3.7 image form the docker hub
+# -> Do an apt-get update
+# -> copy all the local files into  app directory.
+# -> Will list the directory structure.
+# -> install all the requirements for the model.
+# -> CMD[...] Start the streamlit application.

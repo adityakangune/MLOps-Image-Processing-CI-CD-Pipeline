@@ -1,0 +1,11 @@
+We can deploy the model anywhere, your own cluster, run it on a serverless environment, it cn be AWS Lambda or AWS Faargate, 
+Google cloud, cloudrun, app engine, etc, onpremst, combination of jenkins your own physical infrastructure.
+
+We will use Google cloud kubernetes engine.
+For anything other engine, the process will be same, only thing that will change is cloudbuild.yaml because AWS, Azure, Jenkins has it's own specification.
+
+Got to Google Cloud Console: https://console.cloud.google.com/home/dashboard?project=clever-seat-344709
+You have 300 $ credits
+Click on activate cloud shell on top right. It opens a kind of unix command prompt on the bottom.
+Open it in a new window.
+

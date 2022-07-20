@@ -1,0 +1,35 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+# -t will look for something called as "DockerFile" within that particular directory.
+# "." means the current directory.
+# Then it will build te docker file, create a container image(static version of a container which has all the dependancies embedded fro your package)
+# This container will get pushed into imgwebapp:v1.
+# PROJECT_ID is the goolge cloud project id.
+# In deployment.yaml file, we have given the same container name.
+  args: ['build', '-t', 'gcr.io/home/adityakangs/MLOps-Image-Processing-CI-CD-Pipeline/imgwebapp:v1', '.']
+  timeout: 180s
+# We are calling the cloud-builders/docker
+- name: 'gcr.io/cloud-builders/docker'
+# Here we are telling it to push it to the registry.
+# It is going to create the docker and keep it in the registry.
+  args: ['push', 'gcr.io/home/adityakangs/MLOps-Image-Processing-CI-CD-Pipeline']
+- name: 'gcr.io/cloud-builders/gcloud'
+# We can execute shell script as well.
+# After the contianer is built, we can move data or files or folders.
+# Here we are running a unix bash script.
+  entrypoint: "bash"
+  args:
+  - "-c"
+  - |
+    echo "Docker Container Built"
+    ls -la
+    ls -al models/
+# Finally we are going to deploy it on a kubernetes engine. 
+# For that we are calling a builder called "gke-deploy" (Google Kubernetes Engine-deploy)
+- name: "gcr.io/cloud-builders/gke-deploy"
+# Run. The file name is in thhe k8 directory.
+  args:
+  - run
+  - --filename=k8s/
+  - --location=us-west1-b
+  - --cluster=project-kube
