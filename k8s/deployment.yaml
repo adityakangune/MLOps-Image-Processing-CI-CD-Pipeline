@@ -15,6 +15,5 @@ spec:
       containers:
       - name: cv-app
         image: gcr.io/srivatsan-project/imgwebapp:v1
-        # This container name should be given in the cloudbuild.yaml file, in args.
         ports:
         - containerPort: 8501
